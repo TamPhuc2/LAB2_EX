@@ -91,39 +91,55 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim2);
   HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, SET);
+  HAL_GPIO_WritePin(DOT_GPIO_Port, DOT_Pin, SET);
   HAL_GPIO_WritePin(LED_7SEG_1_GPIO_Port, LED_7SEG_1_Pin, SET);
   HAL_GPIO_WritePin(LED_7SEG_2_GPIO_Port, LED_7SEG_2_Pin, SET);
+  HAL_GPIO_WritePin(LED_7SEG_3_GPIO_Port, LED_7SEG_3_Pin, SET);
+  HAL_GPIO_WritePin(LED_7SEG_4_GPIO_Port, LED_7SEG_4_Pin, SET);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  setTimer1(100);//led_red toggle/s
-  setTimer2(50);//ex1 display 7SEG/0.5s
-  int status = 0; //0 = 7seg1, 1 = 7seg2
+  setTimer1(100);//init led_red toggle/s
+  setTimer2(50);//init ex1,2 display 7SEG/0.5s
+  int status = 1; //1 = 7seg1, 2 = 7seg2, 3 = 7seg3, 4 = 7seg4
   while (1)
   {
 	  if(timer1_flag == 1)
 	  {
 		  setTimer1(100);
 		  HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
+		  HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
 	  }
 
-	  if(timer2_flag == 1)
+	  if(timer2_flag == 1)//time out current state
 	  {
-		  setTimer2(50);
-		  clear7SEG();//clear previous status
+		  setTimer2(50);//reset time switch each led
+		  clear7SEG(); //clear previous status
 		  switch(status){
-		  case 0:
+		  case 1:
 			  HAL_GPIO_WritePin(LED_7SEG_1_GPIO_Port, LED_7SEG_1_Pin, RESET);// turn on led 7seg1
-			  HAL_GPIO_WritePin(LED_7SEG_2_GPIO_Port, LED_7SEG_2_Pin, SET);//turn off led 7seg2
-			  status = 1;
+			  HAL_GPIO_WritePin(LED_7SEG_4_GPIO_Port, LED_7SEG_4_Pin, SET);//turn off led 7seg2
+			  status = 2;
 			  display7SEG(1);
 			  break;
-		  case 1:
-			  HAL_GPIO_WritePin(LED_7SEG_1_GPIO_Port, LED_7SEG_1_Pin, SET); //turn on led 7seg1
-			  HAL_GPIO_WritePin(LED_7SEG_2_GPIO_Port, LED_7SEG_2_Pin, RESET);//turn off led 7seg2
-			  status = 0;
+		  case 2:
+			  HAL_GPIO_WritePin(LED_7SEG_2_GPIO_Port, LED_7SEG_2_Pin, RESET); //turn on led 7seg1
+			  HAL_GPIO_WritePin(LED_7SEG_1_GPIO_Port, LED_7SEG_1_Pin, SET);//turn off led 7seg2
+			  status = 3;
 			  display7SEG(2);
+			  break;
+		  case 3:
+			  HAL_GPIO_WritePin(LED_7SEG_3_GPIO_Port, LED_7SEG_3_Pin, RESET); //turn on led 7seg1
+			  HAL_GPIO_WritePin(LED_7SEG_2_GPIO_Port, LED_7SEG_2_Pin, SET);//turn off led 7seg2
+			  status = 4;
+			  display7SEG(3);
+			  break;
+		  case 4:
+			  HAL_GPIO_WritePin(LED_7SEG_4_GPIO_Port, LED_7SEG_4_Pin, RESET); //turn on led 7seg1
+			  HAL_GPIO_WritePin(LED_7SEG_3_GPIO_Port, LED_7SEG_3_Pin, SET);//turn off led 7seg2
+			  status = 1;
+			  display7SEG(0);
 			  break;
 		  default:
 			  clear7SEG();
@@ -233,16 +249,16 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, DOT_Pin|LED_RED_Pin|LED_7SEG_1_Pin|LED_7SEG_2_Pin
-                          |LED_7SEG_3_Pin|LED_7SEG_0_Pin, GPIO_PIN_RESET);
+                          |LED_7SEG_3_Pin|LED_7SEG_4_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, LED_7SEG_a_Pin|LED_7SEG_b_Pin|LED_7SEG_c_Pin|LED_7SEG_d_Pin
                           |LED_7SEG_e_Pin|LED_7SEG_f_Pin|LED_7SEG_g_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : DOT_Pin LED_RED_Pin LED_7SEG_1_Pin LED_7SEG_2_Pin
-                           LED_7SEG_3_Pin LED_7SEG_0_Pin */
+                           LED_7SEG_3_Pin LED_7SEG_4_Pin */
   GPIO_InitStruct.Pin = DOT_Pin|LED_RED_Pin|LED_7SEG_1_Pin|LED_7SEG_2_Pin
-                          |LED_7SEG_3_Pin|LED_7SEG_0_Pin;
+                          |LED_7SEG_3_Pin|LED_7SEG_4_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
