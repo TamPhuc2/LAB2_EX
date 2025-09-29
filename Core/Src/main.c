@@ -232,14 +232,17 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LED_RED_Pin|LED_7SEG_1_Pin|LED_7SEG_2_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, DOT_Pin|LED_RED_Pin|LED_7SEG_1_Pin|LED_7SEG_2_Pin
+                          |LED_7SEG_3_Pin|LED_7SEG_0_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, LED_7SEG_a_Pin|LED_7SEG_b_Pin|LED_7SEG_c_Pin|LED_7SEG_d_Pin
                           |LED_7SEG_e_Pin|LED_7SEG_f_Pin|LED_7SEG_g_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : LED_RED_Pin LED_7SEG_1_Pin LED_7SEG_2_Pin */
-  GPIO_InitStruct.Pin = LED_RED_Pin|LED_7SEG_1_Pin|LED_7SEG_2_Pin;
+  /*Configure GPIO pins : DOT_Pin LED_RED_Pin LED_7SEG_1_Pin LED_7SEG_2_Pin
+                           LED_7SEG_3_Pin LED_7SEG_0_Pin */
+  GPIO_InitStruct.Pin = DOT_Pin|LED_RED_Pin|LED_7SEG_1_Pin|LED_7SEG_2_Pin
+                          |LED_7SEG_3_Pin|LED_7SEG_0_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;

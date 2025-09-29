@@ -62,6 +62,8 @@ void led_red_toggle();
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define DOT_Pin GPIO_PIN_4
+#define DOT_GPIO_Port GPIOA
 #define LED_RED_Pin GPIO_PIN_5
 #define LED_RED_GPIO_Port GPIOA
 #define LED_7SEG_1_Pin GPIO_PIN_6
@@ -74,6 +76,10 @@ void led_red_toggle();
 #define LED_7SEG_b_GPIO_Port GPIOB
 #define LED_7SEG_c_Pin GPIO_PIN_2
 #define LED_7SEG_c_GPIO_Port GPIOB
+#define LED_7SEG_3_Pin GPIO_PIN_8
+#define LED_7SEG_3_GPIO_Port GPIOA
+#define LED_7SEG_0_Pin GPIO_PIN_9
+#define LED_7SEG_0_GPIO_Port GPIOA
 #define LED_7SEG_d_Pin GPIO_PIN_3
 #define LED_7SEG_d_GPIO_Port GPIOB
 #define LED_7SEG_e_Pin GPIO_PIN_4
