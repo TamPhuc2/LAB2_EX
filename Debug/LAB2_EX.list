@@ -37,13 +37,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  16 .debug_macro  000162c7  00000000  00000000  0002b030  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   00009677  00000000  00000000  000412f7  2**0
+ 17 .debug_line   00009675  00000000  00000000  000412f7  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    00082101  00000000  00000000  0004a96e  2**0
+ 18 .debug_str    00082101  00000000  00000000  0004a96c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000053  00000000  00000000  000cca6f  2**0
+ 19 .comment      00000053  00000000  00000000  000cca6d  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00002720  00000000  00000000  000ccac4  2**2
+ 20 .debug_frame  00002720  00000000  00000000  000ccac0  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -592,8 +592,6 @@ static void MX_GPIO_Init(void)
 08000434 <HAL_TIM_PeriodElapsedCallback>:
 
 /* USER CODE BEGIN 4 */
-//int timer3 = 25;
-//int index_led_buffer = 0;
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
  8000434:	b580      	push	{r7, lr}
  8000436:	b082      	sub	sp, #8
@@ -601,11 +599,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
  800043a:	6078      	str	r0, [r7, #4]
 	timerRun();
  800043c:	f000 fadc 	bl	80009f8 <timerRun>
-//			update7SEG(index_led_buffer);
-//			index_led_buffer++;
-//			if(index_led_buffer >= 4) index_led_buffer = 0;
-//		}
-//	}
+
 }
  8000440:	bf00      	nop
  8000442:	3708      	adds	r7, #8

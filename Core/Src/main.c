@@ -276,21 +276,9 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-//int timer3 = 25;
-//int index_led_buffer = 0;
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	timerRun();
-//	if(timer3 > 0)
-//	{
-//		timer3--;
-//		if(timer3 <= 0)
-//		{
-//			timer3 = 25;
-//			update7SEG(index_led_buffer);
-//			index_led_buffer++;
-//			if(index_led_buffer >= 4) index_led_buffer = 0;
-//		}
-//	}
+
 }
 
 void clear7SEG(){
