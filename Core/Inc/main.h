@@ -57,6 +57,7 @@ void Error_Handler(void);
 void clear7SEG();
 void display7SEG(int num);
 void update7SEG(int index);
+void updateClockBuffer();
 
 void led_red_toggle();
 

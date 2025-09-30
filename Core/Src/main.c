@@ -43,7 +43,7 @@
 TIM_HandleTypeDef htim2;
 
 /* USER CODE BEGIN PV */
-
+int hour = 23, minute = 59, second = 55;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -101,10 +101,14 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   setTimer1(100);//init led_red toggle/s
-  //setTimer3(100);//init switch time of led - ex3
-  //int index_led_buffer = 0;
+
+  setTimer3(50);//int time display led 7SEG
+  setTimer4(10);//init timer counter
+  //int hour = 15, minute = 8, second = 50;
+  int index_led_buffer = 0;
   while (1)
   {
+	  //led toggle
 	  if(timer1_flag == 1)
 	  {
 		  setTimer1(100);//reset time
@@ -112,13 +116,36 @@ int main(void)
 		  HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
 	  }
 
-//	  if(timer3_flag == 1)
-//	  {
-//		  setTimer3(100);
-//		  update7SEG(index_led_buffer);
-//		  index_led_buffer++;
-//		  if(index_led_buffer >= 4) index_led_buffer = 0;
-//	  }
+	  //ex5 - digital clock}
+	  //timer controller
+	  if(timer4_flag == 1)
+	  {
+		  setTimer4(100);//reset time 1s
+		  second++;
+		  if(second >= 60)
+		  {
+			  second = 0;
+			  minute++;
+		  }
+		  if(minute >= 60)
+		  {
+			  minute = 0;
+			  hour++;
+		  }
+		  if(hour >= 24)
+		  {
+			  hour = 0;
+		  }
+		  updateClockBuffer();
+	  }
+	  //display contoller
+	  if(timer3_flag == 1)
+	  {
+		  setTimer3(50);
+		  update7SEG(index_led_buffer);
+		  index_led_buffer++;
+		  if(index_led_buffer >= 4) index_led_buffer = 0;
+	  }
 
     /* USER CODE END WHILE */
 
@@ -249,21 +276,21 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-int timer3 = 25;
-int index_led_buffer = 0;
+//int timer3 = 25;
+//int index_led_buffer = 0;
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	timerRun();
-	if(timer3 > 0)
-	{
-		timer3--;
-		if(timer3 <= 0)
-		{
-			timer3 = 25;
-			update7SEG(index_led_buffer);
-			index_led_buffer++;
-			if(index_led_buffer >= 4) index_led_buffer = 0;
-		}
-	}
+//	if(timer3 > 0)
+//	{
+//		timer3--;
+//		if(timer3 <= 0)
+//		{
+//			timer3 = 25;
+//			update7SEG(index_led_buffer);
+//			index_led_buffer++;
+//			if(index_led_buffer >= 4) index_led_buffer = 0;
+//		}
+//	}
 }
 
 void clear7SEG(){
@@ -413,6 +440,17 @@ void update7SEG(int index){
 		clear7SEG();
 		break;
 	}
+}
+//extern int hour, minute;
+void updateClockBuffer(){
+	//set hour
+	led_buffer[0] = hour / 10;
+	led_buffer[1] = hour % 10;
+
+	//set minute
+	led_buffer[2] = minute / 10;
+	led_buffer[3] = minute % 10;
+
 }
 /* USER CODE END 4 */
 
